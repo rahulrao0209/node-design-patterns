@@ -7,13 +7,14 @@ type ProcessorFn<Task> = (
 type EndFn = (error?: Error) => void;
 
 const asyncIterator = <T>(
-  tasks: Task<T>[],
+  tasks: Iterable<Task<T>>,
   processor: ProcessorFn<T>,
   end: EndFn
 ) => {
   const iterate = async (index: number) => {
-    if (index === tasks.length) return end();
-    const task = tasks[index];
+    const taskList = Array.from(tasks);
+    if (index === taskList.length) return end();
+    const task = taskList[index];
 
     /** Call the processor to process each task. */
     processor(task, (error: Error | undefined) => {
