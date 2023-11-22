@@ -8,7 +8,7 @@ type EndFn = (error?: Error) => void;
 
 const asyncIterator = <T>(
   tasks: Iterable<Task<T>>,
-  processor: ProcessorFn<T>,
+  processor: ProcessorFn<Task<T>>,
   end: EndFn
 ) => {
   const iterate = async (index: number) => {
