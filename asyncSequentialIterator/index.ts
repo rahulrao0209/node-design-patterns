@@ -11,7 +11,7 @@ const asyncIterator = <T>(
   processor: ProcessorFn<Task<T>>,
   end: EndFn
 ) => {
-  const iterate = async (index: number) => {
+  const iterate = (index: number) => {
     const taskList = Array.from(tasks);
     if (index === taskList.length) return end();
     const task = taskList[index];
