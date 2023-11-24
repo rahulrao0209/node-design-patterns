@@ -29,10 +29,11 @@ const asyncIterator = <T>(
 
 /** Usage */
 const processTasks = (task: unknown, callback: (error?: Error) => void) => {
+  const random = Math.floor(Math.random() * 5 + 1);
   setTimeout(() => {
     console.log(`Processing task ${task}`);
     callback();
-  }, 1200);
+  }, random * 1000);
 };
 
 const endAllTasks = (error?: Error) => {
@@ -40,4 +41,4 @@ const endAllTasks = (error?: Error) => {
   console.log("Processing finished.");
 };
 
-asyncIterator([1, 2, 3], processTasks, endAllTasks);
+asyncIterator([1, 2, 3, 4, 5], processTasks, endAllTasks);
