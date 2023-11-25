@@ -1,5 +1,7 @@
 import asyncIterator from "./asyncSequentialIterator";
 import asyncParallelIterator from "./asyncParallelIterator";
+import TaskQueue from "./taskQueue";
+import { EventEmitter } from "events";
 
 const processTasks = (task: unknown, callback: (error?: Error) => void) => {
   const random = Math.floor(Math.random() * 5 + 1);
@@ -15,10 +17,17 @@ const endAllTasks = (error?: Error) => {
 };
 
 // Sequential async execution.
-asyncIterator([1, 2, 3, 4, 5, 6, 7, 8], processTasks, endAllTasks);
+// asyncIterator([1, 2, 3, 4, 5, 6, 7, 8], processTasks, endAllTasks);
 
 // Parallel async execution.
 // asyncParallelIterator([1, 2, 3, 4, 5, 6, 7, 8], processTasks, endAllTasks);
 
 // Limited parallel async execution
 // asyncParallelIterator([1, 2, 3, 4, 5, 6, 7, 8], processTasks, endAllTasks, 2);
+
+// Limited parallel async execution using the TaskQueue
+const taskQ = new TaskQueue(processTasks, 2);
+const emitter = new EventEmitter();
+taskQ.push(1, 2, 3, 4, 5, 6, 7, 8);
+emitter.on("queueempty", () => "All tasks processed");
+emitter.on("error", endAllTasks);
